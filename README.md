@@ -1,5 +1,7 @@
 # Polytoria 3D Builder — Studio
 
+WARNNING THIS WAS VIBE CODED PURELY FOR FUN 
+
 A browser-based 3D + GUI level editor built with Three.js and TypeScript.
 
 ---
