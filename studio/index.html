@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Polytoria Creator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+
+    <!-- ═══════════════ TITLE BAR ═══════════════ -->
+    <div id="titlebar">
+      <div id="titlebar-left">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234a9eff'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Ccircle cx='12' cy='12' r='5' fill='%23fff'/%3E%3C/svg%3E" width="16" height="16" style="margin-right:6px;" />
+      </div>
+      <div id="titlebar-center">Polytoria Creator</div>
+      <div id="titlebar-right">
+        <button class="wbtn" id="wb-min" title="Minimize">&#x2013;</button>
+        <button class="wbtn" id="wb-max" title="Maximize">&#x2610;</button>
+        <button class="wbtn wbtn-close" id="wb-close" title="Close">&#x2715;</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════ MENU BAR ═══════════════ -->
+    <div id="menubar">
+      <div class="menu-item" id="menu-file">File</div>
+      <div class="menu-item" id="menu-edit">Edit</div>
+      <div class="menu-item" id="menu-insert">Insert</div>
+      <div class="menu-item" id="menu-model">Model</div>
+      <div class="menu-item" id="menu-tools">Tools</div>
+    </div>
+
+    <!-- Dropdown menus -->
+    <div class="dropdown-menu" id="dropdown-file">
+      <div class="dropdown-item" id="menu-open"><i class="fa-solid fa-folder-open"></i> Open</div>
+      <div class="dropdown-item" id="menu-save"><i class="fa-solid fa-floppy-disk"></i> Save</div>
+      <div class="dropdown-separator"></div>
+      <div class="dropdown-item" id="menu-saveas"><i class="fa-solid fa-file-export"></i> Save As...</div>
+    </div>
+    <div class="dropdown-menu" id="dropdown-edit">
+      <div class="dropdown-item" id="menu-undo"><i class="fa-solid fa-rotate-left"></i> Undo <span class="shortcut">Ctrl+Z</span></div>
+      <div class="dropdown-item" id="menu-redo"><i class="fa-solid fa-rotate-right"></i> Redo <span class="shortcut">Ctrl+Y</span></div>
+      <div class="dropdown-separator"></div>
+      <div class="dropdown-item" id="menu-copy"><i class="fa-solid fa-copy"></i> Copy <span class="shortcut">Ctrl+C</span></div>
+      <div class="dropdown-item" id="menu-paste"><i class="fa-solid fa-paste"></i> Paste <span class="shortcut">Ctrl+V</span></div>
+      <div class="dropdown-item" id="menu-duplicate"><i class="fa-solid fa-clone"></i> Duplicate <span class="shortcut">Ctrl+D</span></div>
+      <div class="dropdown-separator"></div>
+      <div class="dropdown-item" id="menu-delete"><i class="fa-solid fa-trash"></i> Delete <span class="shortcut">Del</span></div>
+    </div>
+    <div class="dropdown-menu" id="dropdown-insert">
+      <div class="dropdown-item" id="mi-brick"><i class="fa-solid fa-cube" style="color:#4a90e2;"></i> Brick</div>
+      <div class="dropdown-item" id="mi-sphere"><i class="fa-solid fa-circle" style="color:#4a90e2;"></i> Sphere</div>
+      <div class="dropdown-item" id="mi-cylinder"><i class="fa-solid fa-drum" style="color:#4a90e2;"></i> Cylinder</div>
+      <div class="dropdown-item" id="mi-wedge"><i class="fa-solid fa-play" style="color:#4a90e2;"></i> Wedge</div>
+      <div class="dropdown-separator"></div>
+      <div class="dropdown-item" id="mi-folder"><i class="fa-solid fa-folder" style="color:#e8c32e;"></i> Folder</div>
+      <div class="dropdown-item" id="mi-script"><i class="fa-solid fa-scroll" style="color:#a0c8ff;"></i> Script</div>
+      <div class="dropdown-item" id="mi-localscript"><i class="fa-solid fa-user-gear" style="color:#90e0a0;"></i> LocalScript</div>
+    </div>
+    <div class="dropdown-menu" id="dropdown-model">
+      <div class="dropdown-item" id="menu-settings"><i class="fa-solid fa-gear"></i> Settings</div>
+    </div>
+    <div class="dropdown-menu" id="dropdown-tools">
+      <div class="dropdown-item" id="menu-settings2"><i class="fa-solid fa-gear"></i> Settings</div>
+    </div>
+
+    <!-- ═══════════════ TOOLBAR ═══════════════ -->
+    <div id="toolbar">
+      <!-- Left group: transform tools -->
+      <div class="tb-group">
+        <button id="tool-select" class="tb-btn active" title="Select">
+          <div class="tb-icon"><i class="fa-solid fa-arrow-pointer"></i></div>
+          <div class="tb-label">Select</div>
+        </button>
+        <button id="tool-move" class="tb-btn" title="Move (1)">
+          <div class="tb-icon"><i class="fa-solid fa-up-down-left-right"></i></div>
+          <div class="tb-label">Move</div>
+        </button>
+        <button id="tool-scale" class="tb-btn" title="Scale (3)">
+          <div class="tb-icon"><i class="fa-solid fa-expand"></i></div>
+          <div class="tb-label">Scale</div>
+        </button>
+        <button id="tool-rotate" class="tb-btn" title="Rotate (2)">
+          <div class="tb-icon"><i class="fa-solid fa-rotate"></i></div>
+          <div class="tb-label">Rotate</div>
+        </button>
+      </div>
+
+      <div class="tb-sep"></div>
+
+      <!-- Snapping -->
+      <div class="tb-group tb-snap">
+        <div class="snap-row">
+          <input type="checkbox" id="snap-move-chk" checked />
+          <label for="snap-move-chk">Move</label>
+          <input id="snap-move" type="number" value="1" step="0.5" />
+        </div>
+        <div class="snap-row">
+          <input type="checkbox" id="snap-rotate-chk" checked />
+          <label for="snap-rotate-chk">Rotate</label>
+          <input id="snap-rotate" type="number" value="45" step="15" />
+        </div>
+        <div class="snap-label">Snapping</div>
+      </div>
+
+      <div class="tb-sep"></div>
+
+      <!-- Right group: insert/tool buttons -->
+      <div class="tb-group">
+        <button id="tool-paint" class="tb-btn" title="Paint (4)">
+          <div class="tb-icon tb-icon-paint"><i class="fa-solid fa-paintbrush"></i></div>
+          <div class="tb-label">Paint</div>
+        </button>
+        <div id="paint-color-wrap" style="display:none;flex-direction:column;align-items:center;justify-content:center;gap:2px;">
+          <input type="color" id="paint-color" value="#ff0000" title="Paint Color" />
+          <div class="tb-label">Color</div>
+        </div>
+        <button id="tb-color" class="tb-btn" title="Color">
+          <div class="tb-icon" style="background:#888;border-radius:4px;width:32px;height:32px;"></div>
+          <div class="tb-label">Color</div>
+        </button>
+        <button class="tb-btn" title="Brush">
+          <div class="tb-icon"><i class="fa-solid fa-brush"></i></div>
+          <div class="tb-label">Brush</div>
+        </button>
+        <button id="btn-material" class="tb-btn" title="Material">
+          <div class="tb-icon tb-icon-material"><i class="fa-solid fa-circle-half-stroke"></i></div>
+          <div class="tb-label">Material</div>
+        </button>
+      </div>
+
+      <div class="tb-sep"></div>
+
+      <div class="tb-group">
+        <button id="btn-add" class="tb-btn" title="Add Part">
+          <div class="tb-icon tb-icon-part"><i class="fa-solid fa-plus"></i><i class="fa-solid fa-cube" style="font-size:14px;"></i></div>
+          <div class="tb-label">Part</div>
+        </button>
+        <!-- Hidden add-type select, driven by dropdown -->
+        <select id="add-type" style="display:none;">
+          <option value="0">Brick</option>
+          <option value="1">Sphere</option>
+          <option value="2">Cylinder</option>
+          <option value="3">Wedge</option>
+          <option value="4">Truss</option>
+          <option value="Folder">Folder</option>
+          <option value="Script">Script</option>
+          <option value="LocalScript">LocalScript</option>
+        </select>
+        <button id="btn-script" class="tb-btn" title="Add Script">
+          <div class="tb-icon tb-icon-script"><i class="fa-solid fa-scroll"></i></div>
+          <div class="tb-label">Script</div>
+        </button>
+        <button id="btn-sound" class="tb-btn" title="Sound">
+          <div class="tb-icon"><i class="fa-solid fa-volume-high"></i></div>
+          <div class="tb-label">Sound</div>
+        </button>
+      </div>
+
+      <div style="flex:1;"></div>
+
+      <!-- Mode toggle -->
+      <div id="mode-toggle">
+        <button id="btn-mode-3d" class="mode-btn active" title="3D Editor"><i class="fa-solid fa-cube"></i> 3D</button>
+        <button id="btn-mode-gui" class="mode-btn" title="GUI Editor"><i class="fa-solid fa-window-maximize"></i> GUI</button>
+      </div>
+
+      <div class="tb-sep"></div>
+      <button id="btn-settings" class="tb-btn-sm" title="Settings"><i class="fa-solid fa-gear"></i></button>
+      <input type="file" id="file-input" accept=".poly" style="display:none" />
+    </div>
+
+    <!-- ═══════════════ MAIN LAYOUT ═══════════════ -->
+    <div id="studio-container">
+
+      <!-- ── LEFT PANEL: Toolbox ── -->
+      <div id="left-panel">
+        <div class="panel-header-bar">
+          <span class="panel-header-title">Toolbox</span>
+          <button class="panel-header-btn" id="toolbox-dropdown-btn"><i class="fa-solid fa-chevron-down"></i></button>
+        </div>
+        <div class="search-row">
+          <input type="text" id="toolbox-search" placeholder="Search..." />
+          <button class="search-refresh"><i class="fa-solid fa-rotate-right"></i></button>
+        </div>
+        <!-- 3D tree (shown in 3D mode as toolbox) -->
+        <div id="tree-view" style="overflow-y:auto;flex-grow:1;padding:3px 0;"></div>
+        <!-- GUI tree -->
+        <div id="gui-tree-view" style="display:none;overflow-y:auto;flex-grow:1;padding:3px 0;"></div>
+      </div>
+
+      <!-- ── CENTER: Viewport tabs + canvas ── -->
+      <div id="center-area">
+        <!-- Tab bar -->
+        <div id="viewport-tabs">
+          <div class="vp-tab active" id="tab-game">
+            <span class="vp-tab-dot"></span>
+            Game
+          </div>
+          <!-- GUI tab shown when in GUI mode -->
+          <div class="vp-tab" id="tab-gui" style="display:none;">
+            <span class="vp-tab-dot" style="background:#5865f2;"></span>
+            GUI Editor
+          </div>
+        </div>
+
+        <!-- 3D viewport -->
+        <div id="viewport-wrapper" style="display:flex;flex:1;position:relative;overflow:hidden;">
+          <div id="gizmo-overlay">
+            <span id="tool-label">Tool: Select</span>
+            <span id="speed-label">Speed: Normal</span>
+          </div>
+          <!-- GUI tools overlay in GUI mode -->
+          <div id="gui-tools-bar" style="display:none;">
+            <select id="gui-add-type">
+              <option value="UIView">UIView</option>
+              <option value="UIButton">UIButton</option>
+              <option value="UILabel">UILabel</option>
+              <option value="UITextInput">UITextInput</option>
+              <option value="UIImage">UIImage</option>
+              <option value="UIHorizontalLayout">UIHorizontalLayout</option>
+              <option value="UIVerticalLayout">UIVerticalLayout</option>
+            </select>
+            <button id="btn-gui-add" class="tb-btn-sm"><i class="fa-solid fa-plus"></i> Add</button>
+            <button id="btn-gui-delete" class="tb-btn-sm" style="color:#ff6b6b;"><i class="fa-solid fa-trash"></i></button>
+            <div class="tb-sep"></div>
+            <select id="gui-aspect">
+              <option value="1920x1080">1920 × 1080</option>
+              <option value="1280x720">1280 × 720</option>
+              <option value="1080x1920">1080 × 1920 (mobile)</option>
+              <option value="800x600">800 × 600</option>
+            </select>
+            <button id="gui-zoom-in" class="tb-btn-sm"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+            <button id="gui-zoom-out" class="tb-btn-sm"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+            <span id="gui-zoom-label" style="font-size:11px;color:#888;padding:0 4px;">100%</span>
+          </div>
+        </div>
+
+        <!-- GUI editor canvas -->
+        <div id="gui-editor-wrapper" style="display:none;flex:1;position:relative;background:#111;overflow:hidden;align-items:center;justify-content:center;">
+          <div id="gui-screen-container" style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
+            <div id="gui-canvas-wrapper" style="position:relative;transform-origin:center center;">
+              <div id="gui-canvas" style="position:relative;width:800px;height:450px;background:#1a1a1a;overflow:hidden;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── RIGHT PANEL: Explorer + Properties ── -->
+      <div id="right-panel">
+
+        <!-- Explorer section -->
+        <div id="explorer-section">
+          <div class="panel-header-bar">
+            <span class="panel-header-title">Explorer</span>
+          </div>
+          <div id="explorer-tree" style="overflow-y:auto;flex:1;padding:3px 0;"></div>
+        </div>
+
+        <!-- Resize handle between explorer and properties -->
+        <div id="panel-resize-handle"></div>
+
+        <!-- Properties section -->
+        <div id="properties-section">
+          <div class="panel-header-bar">
+            <span class="panel-header-title">Properties</span>
+          </div>
+          <div id="prop-content" style="overflow-y:auto;flex:1;padding:8px;">
+            <div class="no-selection">No Selection</div>
+          </div>
+          <div id="gui-prop-content" style="display:none;overflow-y:auto;flex:1;">
+            <div class="no-selection">No GUI element selected</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════ STATUS BAR ═══════════════ -->
+    <div id="statusbar">
+      <div id="status-nav">
+        <button class="status-nav-btn" id="sb-back">&lt;</button>
+        <button class="status-nav-btn" id="sb-fwd">&gt;</button>
+      </div>
+      <div id="status-msg">Ready</div>
+      <div id="status-right">Polytoria Creator v1.4.154</div>
+    </div>
+
+    <!-- ═══════════════ SETTINGS MODAL ═══════════════ -->
+    <div id="settings-overlay" class="settings-overlay hidden">
+      <div id="settings-modal" class="settings-modal">
+        <div class="settings-header">
+          <span><i class="fa-solid fa-gear"></i> Settings</span>
+          <button id="settings-close" class="settings-close"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="settings-body">
+          <div class="settings-tabs">
+            <button class="settings-tab active" data-tab="gizmo"><i class="fa-solid fa-arrows-up-down-left-right"></i> Gizmo</button>
+            <button class="settings-tab" data-tab="camera"><i class="fa-solid fa-camera"></i> Camera</button>
+            <button class="settings-tab" data-tab="viewport"><i class="fa-solid fa-display"></i> Viewport</button>
+            <button class="settings-tab" data-tab="grid"><i class="fa-solid fa-table-cells"></i> Grid</button>
+          </div>
+          <div class="settings-panel active" id="tab-gizmo">
+            <div class="settings-section">
+              <div class="settings-section-title">Transform Gizmo</div>
+              <div class="settings-row"><label>Gizmo Size</label><div class="settings-control"><input type="range" id="set-gizmo-size" min="0.05" max="0.4" step="0.01" value="0.15" /><span id="set-gizmo-size-val" class="settings-val">0.15</span></div></div>
+              <div class="settings-row"><label>X Axis Color</label><input type="color" id="set-color-x" value="#ff3333" class="settings-color" /></div>
+              <div class="settings-row"><label>Y Axis Color</label><input type="color" id="set-color-y" value="#33ff33" class="settings-color" /></div>
+              <div class="settings-row"><label>Z Axis Color</label><input type="color" id="set-color-z" value="#3399ff" class="settings-color" /></div>
+              <div class="settings-row"><label>Highlight Color</label><input type="color" id="set-color-highlight" value="#ffff00" class="settings-color" /></div>
+            </div>
+            <div class="settings-section">
+              <div class="settings-section-title">Snapping</div>
+              <div class="settings-row"><label>Move Snap</label><input type="number" id="set-snap-move" value="1" step="0.5" min="0" class="settings-input" /></div>
+              <div class="settings-row"><label>Rotate Snap (°)</label><input type="number" id="set-snap-rotate" value="45" step="15" min="0" class="settings-input" /></div>
+            </div>
+          </div>
+          <div class="settings-panel" id="tab-camera">
+            <div class="settings-section">
+              <div class="settings-section-title">Flight Camera</div>
+              <div class="settings-row"><label>Normal Speed</label><div class="settings-control"><input type="range" id="set-cam-speed" min="0.05" max="2" step="0.05" value="0.5" /><span id="set-cam-speed-val" class="settings-val">0.5</span></div></div>
+              <div class="settings-row"><label>Precision Speed</label><div class="settings-control"><input type="range" id="set-cam-slow" min="0.01" max="0.5" step="0.01" value="0.1" /><span id="set-cam-slow-val" class="settings-val">0.1</span></div></div>
+              <div class="settings-row"><label>Mouse Sensitivity</label><div class="settings-control"><input type="range" id="set-cam-sens" min="0.0005" max="0.008" step="0.0005" value="0.002" /><span id="set-cam-sens-val" class="settings-val">0.002</span></div></div>
+              <div class="settings-row"><label>Field of View</label><div class="settings-control"><input type="range" id="set-cam-fov" min="30" max="120" step="1" value="60" /><span id="set-cam-fov-val" class="settings-val">60°</span></div></div>
+            </div>
+          </div>
+          <div class="settings-panel" id="tab-viewport">
+            <div class="settings-section">
+              <div class="settings-section-title">Rendering</div>
+              <div class="settings-row"><label>Background Color</label><input type="color" id="set-bg-color" value="#151515" class="settings-color" /></div>
+              <div class="settings-row"><label>Show Stats Overlay</label><input type="checkbox" id="set-show-overlay" checked class="settings-check" /></div>
+            </div>
+            <div class="settings-section">
+              <div class="settings-section-title">Lighting</div>
+              <div class="settings-row"><label>Ambient Intensity</label><div class="settings-control"><input type="range" id="set-ambient" min="0" max="2" step="0.05" value="0.7" /><span id="set-ambient-val" class="settings-val">0.7</span></div></div>
+              <div class="settings-row"><label>Sun Intensity</label><div class="settings-control"><input type="range" id="set-sun" min="0" max="2" step="0.05" value="0.8" /><span id="set-sun-val" class="settings-val">0.8</span></div></div>
+            </div>
+          </div>
+          <div class="settings-panel" id="tab-grid">
+            <div class="settings-section">
+              <div class="settings-section-title">Grid</div>
+              <div class="settings-row"><label>Show Grid</label><input type="checkbox" id="set-show-grid" checked class="settings-check" /></div>
+              <div class="settings-row"><label>Grid Size</label><div class="settings-control"><input type="range" id="set-grid-size" min="50" max="1000" step="50" value="500" /><span id="set-grid-size-val" class="settings-val">500</span></div></div>
+              <div class="settings-row"><label>Grid Divisions</label><div class="settings-control"><input type="range" id="set-grid-divs" min="10" max="200" step="10" value="100" /><span id="set-grid-divs-val" class="settings-val">100</span></div></div>
+              <div class="settings-row"><label>Center Line Color</label><input type="color" id="set-grid-center" value="#444444" class="settings-color" /></div>
+              <div class="settings-row"><label>Grid Line Color</label><input type="color" id="set-grid-line" value="#222222" class="settings-color" /></div>
+            </div>
+          </div>
+        </div>
+        <div class="settings-footer">
+          <button id="settings-reset" class="btn"><i class="fa-solid fa-rotate-left"></i> Reset Defaults</button>
+          <button id="settings-apply" class="btn btn-primary"><i class="fa-solid fa-check"></i> Apply</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
